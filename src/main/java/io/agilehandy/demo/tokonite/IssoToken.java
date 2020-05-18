@@ -38,4 +38,4 @@ public class IssoToken {
 	// others
 }
 
-// header token value === {"userName":"haybu","firstName":"Haytham","lastName":"Mohamed","isActive":true}
+// header token value === {"userName":"jsmith","firstName":"John","lastName":"Smith","isActive":true}
