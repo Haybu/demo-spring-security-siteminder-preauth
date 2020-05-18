@@ -41,7 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 				PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		String password = encoder.encode("secret");
 
-		CustomUser user  = new CustomUser("user", password, authorities);
+		CustomUser user  = new CustomUser(s, password, authorities);
 		user.setFirstName("Haytham");
 		user.setLastName("Mohamed");
 		return user;
