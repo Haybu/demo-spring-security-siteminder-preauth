@@ -19,6 +19,7 @@ import io.agilehandy.demo.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -37,6 +38,12 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Value("${spring.security.siteminder.principal.header}")
+	String principalHeaderName;
+
+	@Value("${spring.security.siteminder.credential.header}")
+	String credentialHeaderName;
 
 	private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
@@ -66,11 +73,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(preAuthenticatedAuthenticationProvider());
 	}
 
-	//@Bean
 	public RequestHeaderAuthenticationFilter requestHeaderAuthenticationFilter() throws Exception {
 
 		RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
 		filter.setAuthenticationManager(authenticationManager());
+		filter.setPrincipalRequestHeader(principalHeaderName);
+		filter.setCredentialsRequestHeader(credentialHeaderName);
 		filter.setExceptionIfHeaderMissing(true);
 		return filter;
 	}
