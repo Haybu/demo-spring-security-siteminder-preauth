@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.agilehandy.demo;
+package io.agilehandy.demo.tokonite;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,18 +29,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
+
+	private final TokenValidator tokenValidator;
+	private final AuthorityLoader authorityLoader;
+	private final UserBuilder userBuilder;
+
+	public CustomUserDetailsService(TokenValidator validator, AuthorityLoader loader, UserBuilder builder) {
+		this.tokenValidator = validator;
+		this.authorityLoader = loader;
+		this.userBuilder = builder;
+	}
+
 	@Override
-	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-		PasswordEncoder encoder =
-				PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		String password = encoder.encode("secret");
-
-		CustomUser user  = new CustomUser(s, password, authorities);
-		user.setFirstName("Haytham");
-		user.setLastName("Mohamed");
-		return user;
+	public UserDetails loadUserByUsername(String userHeaderValue) throws UsernameNotFoundException {
+		IssoToken token = tokenValidator.validateToken(userHeaderValue);
+		Collection<SimpleGrantedAuthority> authorities = authorityLoader.load(userHeaderValue);
+		return userBuilder.build(token, authorities);
 	}
 }

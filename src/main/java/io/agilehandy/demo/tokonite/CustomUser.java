@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.agilehandy.demo;
+package io.agilehandy.demo.tokonite;
 
 import java.util.Collection;
 

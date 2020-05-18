@@ -15,7 +15,7 @@
  */
 package io.agilehandy.demo.config;
 
-import io.agilehandy.demo.CustomUserDetailsService;
+import io.agilehandy.demo.tokonite.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

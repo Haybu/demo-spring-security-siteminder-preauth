@@ -15,6 +15,8 @@
  */
 package io.agilehandy.demo;
 
+import io.agilehandy.demo.tokonite.CustomUser;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
