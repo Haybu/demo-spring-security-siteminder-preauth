@@ -1,4 +1,4 @@
-# Demo spring security siteminder pre-authentication
+# Demo spring security SiteMinder pre-authentication
 
 ![SiteMinder use case](./images/siteminder_usecase.png)
 
