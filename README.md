@@ -1,4 +1,4 @@
-# Demo spring security siteminder preauth
+# Demo spring security siteminder pre-authentication
 
 Assuming users are pre-authenticated using siteminder before accessing this application. After authentication siteminder passes the username in a header called SM_USER. 
 While the application performs no further authentication, spring security framework can use the `RequestHeaderAuthenticationFilter` filter to extract the username from this header and
