@@ -20,28 +20,34 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Haytham Mohamed
+ **/
+
+// Dummy token validator
+
 @Service
-public class TokenValidator {
+public class CustomTokenValidator {
 
 	// TODO: use your token validation implementation
-	public IssoToken validateToken(String token) {
-		IssoToken issoToken = map(token);
+	// dummy validation, change as appropriate
+	public CustomToken extract(String token) {
+		CustomToken issoToken = map(token);
 
-		// dummy validation, change as appropriate
 		if (issoToken == null) {
-			throw new IssoTokenValidationException("token does not conform to ISSO standard!");
+			throw new CustomTokenValidationException("token does not conform to ISSO standard!");
 		} else if (!issoToken.getIsActive()) {
-			throw new IssoTokenValidationException("token is not active!");
+			throw new CustomTokenValidationException("token is not active!");
 		}
 
 		return issoToken;
 	}
 
-	private IssoToken map(String json) {
+	private CustomToken map(String json) {
 		ObjectMapper objectMapper =new ObjectMapper();
-		IssoToken issoToken = null;
+		CustomToken issoToken = null;
 		try {
-			issoToken = objectMapper.readValue(json, IssoToken.class);
+			issoToken = objectMapper.readValue(json, CustomToken.class);
 		}
 		catch (JsonProcessingException e) {
 			e.printStackTrace();

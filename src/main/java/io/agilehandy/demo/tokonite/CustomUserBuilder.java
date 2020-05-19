@@ -15,27 +15,24 @@
  */
 package io.agilehandy.demo.tokonite;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.util.Collection;
+
+import org.springframework.stereotype.Service;
 
 /**
  * @author Haytham Mohamed
  **/
 
-// Dummy token to represent ISSO Token type
+// Dummy custom user builder
 
-@Data
-@NoArgsConstructor
-@ToString
-public class IssoToken {
-
-	private String userName;
-	private String firstName;
-	private String lastName;
-	private Boolean isActive;
-
-	// others
+@Service
+public class CustomUserBuilder {
+	
+	public CustomUser build(CustomToken token, Collection authorities) {
+		CustomUser user  =
+				new CustomUser(token.getUserName(), "N/A", authorities);
+		user.setFirstName(token.getFirstName());
+		user.setLastName(token.getLastName());
+		return user;
+	}
 }
-
-// header token value === {"userName":"jsmith","firstName":"John","lastName":"Smith","isActive":true}

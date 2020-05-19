@@ -15,18 +15,17 @@
  */
 package io.agilehandy.demo.tokonite;
 
-import java.util.Collection;
+/**
+ * @author Haytham Mohamed
+ **/
 
-import org.springframework.stereotype.Service;
+public class CustomTokenValidationException extends RuntimeException {
 
-@Service
-public class UserBuilder {
-	
-	public CustomUser build(IssoToken token, Collection authorities) {
-		CustomUser user  =
-				new CustomUser(token.getUserName(), "N/A", authorities);
-		user.setFirstName(token.getFirstName());
-		user.setLastName(token.getLastName());
-		return user;
+	public CustomTokenValidationException() {
+		super();
+	}
+
+	public CustomTokenValidationException(String message) {
+		super(message);
 	}
 }

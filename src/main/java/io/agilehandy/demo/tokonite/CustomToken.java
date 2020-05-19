@@ -15,16 +15,27 @@
  */
 package io.agilehandy.demo.tokonite;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 /**
  * @author Haytham Mohamed
  **/
-public class IssoTokenValidationException extends RuntimeException {
 
-	public IssoTokenValidationException() {
-		super();
-	}
+// Dummy token type
 
-	public IssoTokenValidationException(String message) {
-		super(message);
-	}
+@Data
+@NoArgsConstructor
+@ToString
+public class CustomToken {
+
+	private String userName;
+	private String firstName;
+	private String lastName;
+	private Boolean isActive;
+
+	// others
 }
+
+// header token value === {"userName":"jsmith","firstName":"John","lastName":"Smith","isActive":true}

@@ -23,6 +23,9 @@ import org.springframework.security.core.userdetails.User;
 /**
  * @author Haytham Mohamed
  **/
+
+// Dummy custom user
+
 public class CustomUser extends User {
 
 	private String firstName;

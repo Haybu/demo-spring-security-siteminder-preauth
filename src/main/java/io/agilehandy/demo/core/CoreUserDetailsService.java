@@ -13,9 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.agilehandy.demo.tokonite;
+package io.agilehandy.demo.core;
 
 import java.util.Collection;
+
+import io.agilehandy.demo.tokonite.CustomAuthorityLoader;
+import io.agilehandy.demo.tokonite.CustomToken;
+import io.agilehandy.demo.tokonite.CustomTokenValidator;
+import io.agilehandy.demo.tokonite.CustomUserBuilder;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,13 +33,13 @@ import org.springframework.stereotype.Service;
  **/
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CoreUserDetailsService implements UserDetailsService {
 
-	private final TokenValidator tokenValidator;
-	private final AuthorityLoader authorityLoader;
-	private final UserBuilder userBuilder;
+	private final CustomTokenValidator tokenValidator;
+	private final CustomAuthorityLoader authorityLoader;
+	private final CustomUserBuilder userBuilder;
 
-	public CustomUserDetailsService(TokenValidator validator, AuthorityLoader loader, UserBuilder builder) {
+	public CoreUserDetailsService(CustomTokenValidator validator, CustomAuthorityLoader loader, CustomUserBuilder builder) {
 		this.tokenValidator = validator;
 		this.authorityLoader = loader;
 		this.userBuilder = builder;
@@ -42,7 +47,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String userHeaderValue) throws UsernameNotFoundException {
-		IssoToken token = tokenValidator.validateToken(userHeaderValue);
+		CustomToken token = tokenValidator.extract(userHeaderValue);
 		Collection<SimpleGrantedAuthority> authorities = authorityLoader.load(userHeaderValue);
 		return userBuilder.build(token, authorities);
 	}

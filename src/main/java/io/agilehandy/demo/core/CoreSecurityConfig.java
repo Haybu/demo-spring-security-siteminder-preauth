@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.agilehandy.demo.config;
+package io.agilehandy.demo.core;
 
-import io.agilehandy.demo.tokonite.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,9 +33,10 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
 /**
  * @author Haytham Mohamed
  **/
+
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class CoreSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Value("${spring.security.siteminder.principal.header}")
 	String principalHeaderName;
@@ -44,11 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Value("${spring.security.siteminder.credential.header}")
 	String credentialHeaderName;
 
-	private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
+	private static final Logger log = LoggerFactory.getLogger(CoreSecurityConfig.class);
 
-	private final CustomUserDetailsService userDetailsService;
+	private final CoreUserDetailsService userDetailsService;
 
-	public SecurityConfig(CustomUserDetailsService userDetailsService) {
+	public CoreSecurityConfig(CoreUserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
 	}
 

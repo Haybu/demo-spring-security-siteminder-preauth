@@ -21,11 +21,18 @@ import java.util.Collection;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Haytham Mohamed
+ **/
+
+// Dummy loader to mimic loading authorities from external system.
+// hard-coded values for this demo
+
 @Service
-public class AuthorityLoader {
+public class CustomAuthorityLoader {
 
 	// TODO use capability implementation to load authorities from LDAP
-	Collection<SimpleGrantedAuthority> load(String username) {
+	public Collection<SimpleGrantedAuthority> load(String username) {
 		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		return authorities;
