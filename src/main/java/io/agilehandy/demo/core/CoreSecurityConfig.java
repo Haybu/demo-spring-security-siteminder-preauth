@@ -33,6 +33,8 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 /**
  * @author Haytham Mohamed
  **/
@@ -82,14 +84,14 @@ public class CoreSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-				.antMatchers("/secured/**").hasAuthority("ROLE_USER")
-				.antMatchers("/permitted/**", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+		http
+			.authorizeRequests(request -> request
+				.mvcMatchers("/secured/**").hasRole("USER")
+				.mvcMatchers("/permitted/**", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
 				.anyRequest().authenticated()
-				.and()
-				.formLogin(Customizer.withDefaults())
-				.addFilter(requestHeaderAuthenticationFilter())
-		;
+			)
+			.formLogin(withDefaults())
+			.addFilter(requestHeaderAuthenticationFilter());
 	}
 
 }
