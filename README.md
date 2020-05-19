@@ -15,5 +15,5 @@ service the flow can for example validate the token, pull users' authorities fro
 system such as LDAP and build a custom user.
 
 To run the demo application and be able to access it, use `ModeHeader` browser 
-plugin and provide a header named `SM_USER` with value 
-`{"userName":"jsmith","firstName":"John","lastName":"Smith","isActive":true}`.
+plugin to provide a header named `SM_USER` with value 
+`{"userName":"jsmith","firstName":"John","lastName":"Smith","isActive":true}`, then hit `http://localhost:8080/secured/home`
