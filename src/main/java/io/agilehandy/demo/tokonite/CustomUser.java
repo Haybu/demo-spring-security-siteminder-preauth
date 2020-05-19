@@ -15,10 +15,9 @@
  */
 package io.agilehandy.demo.tokonite;
 
-import java.util.Collection;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author Haytham Mohamed
@@ -26,33 +25,13 @@ import org.springframework.security.core.userdetails.User;
 
 // Dummy custom user
 
-public class CustomUser extends User {
+@Data
+@Builder
+@RequiredArgsConstructor
+public class CustomUser {
 
-	private String firstName;
-	private String lastName;
-
-	public CustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, authorities);
-	}
-
-	public CustomUser(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-	}
-
-	String getFirstName() {
-		return firstName;
-	}
-
-	void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	String getLastName() {
-		return lastName;
-	}
-
-	void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+	private final String username;
+	private final String firstName;
+	private final String lastName;
 
 }

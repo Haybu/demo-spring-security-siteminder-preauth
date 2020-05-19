@@ -15,22 +15,13 @@
  */
 package io.agilehandy.demo.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -49,29 +40,8 @@ public class CoreSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Value("${spring.security.siteminder.credential.header}")
 	String credentialHeaderName;
 
-	private static final Logger log = LoggerFactory.getLogger(CoreSecurityConfig.class);
-
-	AuthenticationManager authenticationManager;
-
 	@Autowired
-	void setAuthenticationManager(AuthenticationConfiguration authentication) throws Exception {
-		this.authenticationManager = authentication.getAuthenticationManager();
-	}
-
-	@Bean
-	public static PreAuthenticatedAuthenticationProvider preAuthenticatedAuthenticationProvider(CoreUserDetailsService userDetailsService){
-
-		log.info("Configuring pre authentication provider");
-
-		UserDetailsByNameServiceWrapper<PreAuthenticatedAuthenticationToken> wrapper =
-				new UserDetailsByNameServiceWrapper<>(userDetailsService);
-
-		PreAuthenticatedAuthenticationProvider provider =
-				new PreAuthenticatedAuthenticationProvider();
-		provider.setPreAuthenticatedUserDetailsService(wrapper);
-
-		return provider;
-	}
+	AuthenticationManager authenticationManager;
 
 	public RequestHeaderAuthenticationFilter requestHeaderAuthenticationFilter() throws Exception {
 		RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
