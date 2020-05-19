@@ -18,10 +18,13 @@ package io.agilehandy.demo.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -46,13 +49,15 @@ public class CoreSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final Logger log = LoggerFactory.getLogger(CoreSecurityConfig.class);
 
-	private final CoreUserDetailsService userDetailsService;
+	AuthenticationManager authenticationManager;
 
-	public CoreSecurityConfig(CoreUserDetailsService userDetailsService) {
-		this.userDetailsService = userDetailsService;
+	@Autowired
+	void setAuthenticationManager(AuthenticationConfiguration authentication) throws Exception {
+		this.authenticationManager = authentication.getAuthenticationManager();
 	}
 
-	public PreAuthenticatedAuthenticationProvider preAuthenticatedAuthenticationProvider(){
+	@Bean
+	public static PreAuthenticatedAuthenticationProvider preAuthenticatedAuthenticationProvider(CoreUserDetailsService userDetailsService){
 
 		log.info("Configuring pre authentication provider");
 
@@ -66,17 +71,11 @@ public class CoreSecurityConfig extends WebSecurityConfigurerAdapter {
 		return provider;
 	}
 
-	@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(preAuthenticatedAuthenticationProvider());
-	}
-
 	public RequestHeaderAuthenticationFilter requestHeaderAuthenticationFilter() throws Exception {
-
 		RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
-		filter.setAuthenticationManager(authenticationManager());
-		filter.setPrincipalRequestHeader(principalHeaderName);
-		filter.setCredentialsRequestHeader(credentialHeaderName);
+		filter.setAuthenticationManager(this.authenticationManager);
+		filter.setPrincipalRequestHeader(this.principalHeaderName);
+		filter.setCredentialsRequestHeader(this.credentialHeaderName);
 		filter.setExceptionIfHeaderMissing(true);
 		return filter;
 	}
