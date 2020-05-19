@@ -28,6 +28,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomTokenValidator {
+	final ObjectMapper objectMapper;
+
+	public CustomTokenValidator(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
 
 	// TODO: use your token validation implementation
 	// dummy validation, change as appropriate
@@ -44,10 +49,9 @@ public class CustomTokenValidator {
 	}
 
 	private CustomToken map(String json) {
-		ObjectMapper objectMapper =new ObjectMapper();
 		CustomToken issoToken = null;
 		try {
-			issoToken = objectMapper.readValue(json, CustomToken.class);
+			issoToken = this.objectMapper.readValue(json, CustomToken.class);
 		}
 		catch (JsonProcessingException e) {
 			e.printStackTrace();
