@@ -8,7 +8,7 @@
 
 <div style="float: right" th:fragment="logout" sec:authorize="isAuthenticated()">
     <div style="float:left">
-        <span style="font-weight:bold">User: </span><span id="username" sec:authentication="name"></span>
+        <span style="font-weight:bold">User: </span><span id="username" sec:authentication="principal.username"></span>
     </div>
     <div style="float:none">&nbsp;</div>
     <div style="float:right">
