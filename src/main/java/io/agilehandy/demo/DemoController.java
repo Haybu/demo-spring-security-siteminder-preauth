@@ -15,9 +15,9 @@
  */
 package io.agilehandy.demo;
 
+import io.agilehandy.demo.tokonite.CurrentUser;
 import io.agilehandy.demo.tokonite.CustomUser;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +30,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DemoController {
 
 	@GetMapping(value="/secured/home")
-	public String securedHome(ModelMap model) {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		CustomUser user=null;
-		if (principal instanceof CustomUser) {
-			user = ((CustomUser)principal);
-			String name = user.getUsername();
-			model.addAttribute("username", name);
-		}
-
+	public String securedHome(@CurrentUser CustomUser user, ModelMap model) {
+		String name = user.getUsername();
+		model.addAttribute("username", name);
 		model.addAttribute("message", "Welcome to the secured page through site minder");
 		return "index";
 
