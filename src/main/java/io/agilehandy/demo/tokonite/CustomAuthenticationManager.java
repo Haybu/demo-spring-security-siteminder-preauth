@@ -24,7 +24,6 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String rawToken = authentication.getName();
 		CustomToken token = this.tokenValidator.extract(rawToken);
-		Collection<SimpleGrantedAuthority> username = this.authorities.load(token.getUserName());
 		CustomUser user = CustomUser.builder()
 				.firstName(token.getFirstName())
 				.lastName(token.getLastName())
